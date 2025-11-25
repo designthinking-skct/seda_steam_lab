@@ -1,0 +1,35 @@
+# Speed Breaker Alert System – Arduino UNO + Ultrasonic Sensor
+
+This repository contains only the files necessary for the Speed Breaker Alert System demo,
+based strictly on your uploaded project notes (Proj csr.pdf) and the Arduino code.
+
+## Included files
+- `speedbreakrr.ino` – Arduino code.
+- `testing.md` – Setup, calibration, troubleshooting, and observations.
+- `Proj csr.pdf` – Original project notes (see pages 3–5 for circuit diagram).
+- `README.md` – This file.
+
+## What the code does
+The Arduino:
+1. Triggers the HC-SR04 sensor.
+2. Reads echo duration.
+3. Converts it to distance.
+4. Activates buzzer on pin D7 if distance < 15 cm.
+5. Prints live readings via Serial Monitor.
+
+## Hardware Used
+- Arduino UNO  
+- HC-SR04 Ultrasonic Sensor  
+- Buzzer  
+- Jumper wires  
+
+(No LED or resistor used.)
+
+## Circuit Reference
+See **Proj csr.pdf (pages 3–5)** for the original hand-drawn wiring diagram.
+
+## Running the Demo
+1. Wire system as shown in the PDF.
+2. Upload `speedbreakrr.ino`.
+3. Open Serial Monitor @ 9600 baud.
+4. Move an object closer than 15 cm → buzzer activates.

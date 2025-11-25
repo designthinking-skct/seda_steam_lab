@@ -1,0 +1,149 @@
+Expiry Date Scanner using Raspberry Pi 4 + Gemini API + IP Camera + LEDs 
+This README explains everything you need to run the main2.py expiry-scanner project 
+end-to-end on a Raspberry Pi 4. It includes installation, wiring, dependencies, API setup, 
+execution steps, and troubleshooting. 
+
+ 
+
+  1. Hardware Requirements 
+• Raspberry Pi 4 (any RAM version) 
+• MicroSD card with Raspberry Pi OS 
+• Breadboard 
+• 3 LEDs: 
+o Red → Expired 
+o Yellow → Expiring soon (≤14 days) 
+o Green → Safe 
+• Resistors (220Ω–330Ω for each LED) 
+• Jumper wires (male-to-female) 
+• IP Camera (Android phone with "IP Webcam" app works) 
+• Internet connection (WiFi/Ethernet) 
+
+ 
+
+  2. Circuit Wiring for LEDs 
+Connect LEDs to Raspberry Pi like this: 
+LED Raspberry Pi GPIO Purpose 
+Red GPIO 22 (Pin 15) Expired 
+Yellow GPIO 27 (Pin 13) Expiring Soon 
+Green GPIO 17 (Pin 11) Valid 
+Wiring (per LED): 
+GPIO PIN ── Resistor ──▶ Anode (long leg of LED) 
+Cathode (short leg) ──▶ GND 
+You can use any ground pin (Pin 6, 14, 20, 25, 30, 34, 39). 
+
+ 
+
+  3. IP Camera Setup 
+Option A — Using Android phone 
+
+
+1. Install IP Webcam from Play Store 
+2. Open app → Start Server 
+3. Your stream URL will look like: 
+http://<phone-ip>:8080/video 
+4. Put this into main2.py: 
+CAMERA_URL = "http://<your-phone-ip>:8080/video" 
+
+ 
+
+  4. Google Gemini API Key Setup 
+1. Go to: 
+https://aistudio.google.com/app/apikey 
+2. Create an API key 
+3. Copy the key 
+4. Replace in main2.py: 
+API_KEY = "YOUR_API_KEY_HERE" 
+
+ 
+
+  5. Software Setup on Raspberry Pi [NOT REQUIRED IF STEP 6 RUNS] 
+Update packages 
+sudo apt update && sudo apt upgrade -y 
+Install Python tools 
+sudo apt install python3 python3-pip -y 
+Install required libraries 
+pip3 install opencv-python pillow google-generativeai 
+Enable GPIO access 
+GPIO works by default on Raspberry Pi OS. 
+If using a virtual environment, run script with sudo. 
+
+ 
+
+  6. Running Using Your Existing Setup 
+You already have: 
+• The code located at: ~/Downloads/main2.py 
+• A virtual environment located at: ~/ocr-env/ 
+Activate your virtual environment 
+
+
+source ~/ocr-env/bin/activate 
+Run the script 
+cd ~/Downloads 
+python3 main2.py 
+
+ 
+
+  7. Running the Script 
+Running the Script 
+Run using: 
+python3 main2.py 
+What will happen: 
+1. Raspberry Pi captures an image from your camera 
+2. Sends image to Gemini API 
+3. Extracts expiry date text 
+4. Compares with current date 
+5. Lights LED based on result: 
+o   Red → Expired 
+o   Yellow → Expiring within 14 days 
+o   Green → Valid 
+LED stays lit for 10 seconds. 
+
+ 
+
+  8. Testing the LED Functionality 
+Before running the scanner, test LEDs: 
+sudo python3 
+>>> import RPi.GPIO as GPIO 
+>>> GPIO.setmode(GPIO.BCM) 
+>>> GPIO.setup(22, GPIO.OUT) 
+>>> GPIO.output(22, 1)   # Red ON 
+>>> GPIO.output(22, 0) 
+>>> GPIO.setup(27, GPIO.OUT) 
+>>> GPIO.output(27, 1)   # Yellow ON 
+>>> GPIO.output(27, 0) 
+
+
+>>> GPIO.setup(17, GPIO.OUT) 
+>>> GPIO.output(17, 1)   # Green ON 
+>>> GPIO.output(17, 0) 
+>>> GPIO.cleanup() 
+
+ 
+
+  9. Troubleshooting 
+  Error: "Cannot open camera stream" 
+• Check if the camera URL is correct 
+• Phone must be on same WiFi network as Raspberry Pi 
+• Try opening URL in browser: 
+http://<phone-ip>:8080/video 
+  Gemini API error 
+• Check API key validity 
+• Make sure you have not exceeded free request limits 
+  LEDs not turning on 
+• Check wiring 
+• Check that resistors are connected 
+• Run LED test (section 8) 
+  Permission error for GPIO 
+Run using: 
+sudo python3 main2.py 
+
+ 
+
+  Your Setup Is Ready! 
+You now have a fully-working: 
+• Raspberry Pi 4 
+• IP camera 
+• Gemini-powered expiry date detector 
+• LED visual indicator system 
+
+ 

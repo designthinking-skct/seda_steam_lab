@@ -1,0 +1,52 @@
+Smart Water Level Monitoring System – README
+📘 Project Overview
+
+This project focuses on creating a simple Water Level Monitoring System using an ultrasonic sensor and Arduino. The system helps monitor the water level in an overhead tank and provides visual and audio alerts using LEDs and a buzzer.
+
+This solution helps prevent unnoticed low water levels and allows maintenance staff or students to take timely action.
+
+💡 Features
+
+Real-time water level measurement using an ultrasonic sensor.
+
+LED indicator alerts for medium and low water levels.
+
+Buzzer alert when water level is critically low.
+
+Simple and low-cost prototype suitable for school demonstration.
+
+🛠 Components Used
+
+Arduino Uno
+
+Ultrasonic Sensor (HC-SR04)
+
+trigPin → 7
+
+echoPin → 6
+
+LED Indicators
+
+Level1 (medium level) → Pin 11
+
+Level2 (critical low) → Pin 10
+
+Buzzer / Alert LED → Pin 2
+
+Jumper wires
+
+Breadboard
+
+⚙️ How the System Works
+
+The ultrasonic sensor sends sound waves and measures the distance to the water surface.
+
+Based on distance readings:
+
+10–15 cm → Level 1 LED turns ON
+(Indicates medium water level)
+
+<10 cm → Level 2 LED + Buzzer activate
+(Indicates critical almost full level)
+
+>15 cm or safe zone → All alerts remain OFF

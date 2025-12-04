@@ -1,0 +1,47 @@
+#define trigPin 7
+#define echoPin 6
+#define alertPin 2 // Buzzer or LED
+#define level1 11
+#define level2 10
+
+void setup() {
+Serial.begin(9600);
+pinMode(trigPin, OUTPUT);
+pinMode(echoPin, INPUT);
+pinMode(alertPin, OUTPUT);
+}
+
+void loop() {
+long duration;
+int distance;
+
+// Send ultrasonic pulse
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+
+// Read echo pulse
+duration = pulseIn(echoPin, HIGH);
+distance = duration * 0.034 / 2; // Convert to cm
+
+Serial.print("Distance: ");
+Serial.println(distance);
+
+
+if (distance > 10 && distance < 15) { // Distance threshold for speed breaker
+digitalWrite(level1, HIGH); // Alert
+} else if (distance < 10) {
+digitalWrite(alertPin, HIGH);
+digitalWrite(level2, HIGH);
+} else {
+digitalWrite(alertPin, LOW);
+digitalWrite(level1, LOW);
+digitalWrite(level2, LOW);
+}
+
+
+
+delay(500);
+}
